@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>UDGOSH 2026 - Code Hunt</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            color: #f4f4f5;
+            font-family: 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, #1e2023 0%, #101214 40%, #000000 75%, #24262a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* PERMANENT MAIN CONTAINER */
+        .main-container {
+            width: 95%;
+            height: 95%;
+            background: #141414;
+            border-radius: 25px;
+            box-shadow: 0 50px 120px rgba(0, 0, 0, 0.85);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* OPENING TITLE */
+        .title {
+            font-size: 90px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            background: linear-gradient(90deg, #a855f7, #7c3aed);
+            text-align: center;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        .subtitle {
+            font-size: 45px;
+            font-weight: 600;
+            text-align: center;
+            color: #d4d4d8;
+            margin-bottom: 60px;
+        }
+
+        /* LOGIN BOX */
+        #loginSection {
+            background: #1e1e1e;
+            padding: 50px 60px;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* INPUT FIELDS */
+        input {
+            padding: 14px;
+            width: 280px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            outline: none;
+            font-size: 14px;
+            background: #181818;
+            color: #e4e4e7;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border: 1px solid #a855f7;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+
+        /* BUTTON */
+        button {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #7c3aed, #a855f7);
+            color: white;
+            transition: 0.2s ease;
+        }
+
+        button:hover {
+            transform: scale(1.07);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.5);
+        }
+
+        #testSection {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* TIMER */
+        #timer {
+            font-size: 26px;
+            letter-spacing: 1px;
+            font-weight: bold;
+            color: #c084fc;
+            margin-bottom: 25px;
+        }
+
+        #roundHeader {
+            font-size: 36px;
+            margin-top: 10px;
+            font-weight: 700;
+            color: #c084fc;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+
+        textarea {
+            width: 70%;
+            height: 130px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #2a2a2a;
+            resize: none;
+            background: #181818;
+            color: #e4e4e7;
+            font-size: 14px;
+        }
+
+        textarea:focus {
+            border: 1px solid #a855f7;
+            box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .bottom-right {
+            position: absolute;
+            bottom: 50px;
+            right: 60px;
+        }
+
+        /* INSTRUCTION SECTION WRAPPER */
+        #instructionSection {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* INSTRUCTION CARD */
+        .instruction-card {
+            width: 60%;
+            padding: 45px 60px;
+            border-radius: 18px;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            box-shadow:
+                0 0 30px rgba(168, 85, 247, 0.25),
+                0 0 60px rgba(124, 58, 237, 0.15);
+            margin-bottom: 40px;
+        }
+
+        /* INSTRUCTION TITLE */
+        .instruction-card h2 {
+            font-size: 35px;
+            margin-bottom: 30px;
+            color: #c084fc;
+            text-align: center;
+        }
+
+        /* INSTRUCTION TEXT */
+        .instruction-card p {
+            font-size: 20px;
+            color: #e4e4e7;
+            margin: 14px 0;
+            text-align: left;
+            padding-left: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        /* QUESTION CARD */
+        #questionContainer {
+            width: 70%;
+            max-width: 900px;
+            background: #181818;
+            padding: 40px;
+            border-radius: 18px;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.15);
+            margin: 20px auto;
+            text-align: left;
+            transition: opacity 0.2s ease;
+        }
+
+        #questionNumber {
+            font-size: 18px;
+            color: #c084fc;
+            margin-bottom: 15px;
+        }
+
+        #questionText {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #e4e4e7;
+            white-space: pre-line;
+        }
+
+        .option-box {
+            margin: 15px 0;
+            padding: 14px 18px;
+            border-radius: 12px;
+            background: #121212;
+            border: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: 0.25s ease;
+            color: #e4e4e7;
+        }
+
+        .option-box:hover {
+            border: 1px solid #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .option-selected {
+            border: 1px solid #c084fc;
+            background: #1c1626;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+        }
+
+        /* START BUTTON BELOW CARD */
+        .start-btn {
+            padding: 14px 40px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            cursor: pointer;
+            background: linear-gradient(90deg, #7c3aed, #a855f7);
+            color: white;
+            transition: 0.2s ease;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.07);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.5);
+        }
+
+        .continue-btn {
+            padding: 14px 40px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, #7c3aed, #a855f7);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .continue-btn:hover {
+            transform: scale(1.07);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.5);
+        }
+
+        .track-option {
+            width: 80%;
+            margin: 20px auto;
+            padding: 18px;
+            margin: 15px 0;
+            border-radius: 12px;
+            background: #121212;
+            border: 1px solid #2a2a2a;
+            cursor: pointer;
+            font-size: 20px;
+            color: #e4e4e7;
+            transition: 0.25s ease;
+            text-align: center;
+        }
+
+        .track-option:hover {
+            border: 1px solid #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+
+        .track-selected {
+            border: 1px solid #c084fc;
+            background: #1c1626;
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+        }
+
+        /* Disable Text Selection */
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+
+        input,
+        textarea {
+            user-select: text;
+            -webkit-user-select: text;
+            -ms-user-select: text;
+        }
+
+        .score-mini-container {
+            width: 55%;
+            padding: 45px;
+            border-radius: 18px;
+            background: #0f0f0f;
+            border: 1px solid #2a2a2a;
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.2);
+            text-align: center;
+        }
+
+        .score-heading {
+            font-size: 28px;
+            color: #c084fc;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .score-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-row {
+            font-size: 20px;
+            color: #e4e4e7;
+            margin-bottom: 25px;
+            white-space: pre-line;
+        }
+
+        .selection-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .selection-box {
+            width: 300px;
+            padding: 30px;
+            background: #111;
+            border-radius: 16px;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            color: #f4f4f5;
+        }
+
+        .selection-box h3 {
+            color: #c084fc;
+            font-size: 22px;
+            text-align: center;
+        }
+
+        .large-box {
+            width: 65%;
+            padding: 60px;
+            background: #111;
+            border-radius: 20px;
+            text-align: center;
+            color: #f4f4f5;
+        }
+
+        .large-box h2 {
+            color: #c084fc;
+            font-size: 34px;
+            margin-bottom: 20px;
+        }
+
+        .large-box p {
+            font-size: 18px;
+            color: #e4e4e7;
+            margin: 8px 0;
+        }
+
+        .section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 85vh;
+        }
+
+        #qualificationBtn {
+            margin-top: 30px;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+
+        <!-- OPENING PAGE CONTENT -->
+        <div id="openingPage">
+            <div class="title">UDGOSH 2026</div>
+            <div class="subtitle">Welcome to Code Hunt</div>
+
+            <div id="loginSection">
+                <input id="login_id" autocomplete="off" placeholder="Login ID">
+                <input id="password" type="password" autocomplete="new-password" placeholder="Password">
+                <button onclick="login()">Login</button>
+                <p id="loginMsg" style="color:#ff9e9e;"></p>
+            </div>
+        </div>
+
+        <!-- INSTRUCTION SECTION-->
+        <div id="instructionSection" class="hidden">
+            <div class="instruction-card">
+                <h2 id="instructionTitle"></h2>
+                <div id="instructionContent"></div>
+            </div>
+            <button class="start-btn" onclick="startRoundOfficial()">
+                Start Round
+            </button>
+        </div>
+
+        <!-- TEST SECTION -->
+        <div id="testSection" class="hidden">
+
+            <h2 id="roundHeader"></h2>
+            <h3 id="timer"></h3>
+
+            <div id="questionContainer">
+                <div id="questionNumber"></div>
+                <div id="questionText"></div>
+                <div id="optionsContainer"></div>
+            </div>
+
+            <div style="margin-top:30px;">
+                <button id="prevBtn" onclick="prevQuestion()">Previous</button>
+                <button id="nextBtn" onclick="nextQuestion()">Next</button>
+            </div>
+
+            <button id="submitBtn" class="bottom-right hidden" onclick="submitRound()">
+                Submit
+            </button>
+
+        </div>
+
+        <!-- LANGUAGE SELECTION PAGE -->
+         <div id="languageSection" class="section hidden">
+
+            <div class="large-box">
+
+                <h2>Select Track</h2>
+
+                <div class="selection-container">
+
+                    <div class="selection-box" onclick="selectTrack('A')">
+                        <h3>Track A</h3>
+                        <p>C</p>
+                        <p>Java</p>
+                        <p>Python</p>
+                    </div>
+
+                    <div class="selection-box" onclick="selectTrack('B')">
+                        <h3>Track B</h3>
+                        <p>C</p>
+                        <p>SQL</p>
+                        <p>HTML</p>
+                    </div>
+
+                </div>
+
+                <button onclick="confirmTrack()" style="margin-top:30px;">
+                    Confirm Selection
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- QUALIFICATION PAGE -->
+        <div id="qualificationSection" class="section hidden">
+            <div class="large-box">
+                <h2 id="qualificationTitle"></h2>
+                <p id="qualificationMessage"></p>
+                <button id="qualificationBtn">Continue</button>
+            </div>
+        </div>
+
+        <div id="finalSection" class="section hidden">
+            <div class="large-box">
+                <h2>Examination Completed</h2>
+                <p>Your attempt has ended.</p>
+                <p>Please contact the coordinator.</p>
+            </div>
+        </div>
+
+    <script>
+        let totalTimeSpent = 0;
+        let timerInterval;
+        let timeRemaining = 0;
+        let currentQuestionIndex = 0;
+        let visitedQuestions = new Set();
+        let currentRound = 1;
+        let questionsData = [];
+        let savedAnswers = {};
+        let tabSwitchCount = 0;
+        let violationCount = 0;
+        let maxViolations = 2;
+        let examLocked = false;
+
+        window.onload = function(){
+
+            fetch('/resume')
+            .then(res => res.json())
+            .then(data => {
+
+                if(!data.stage) return;
+
+                switch(data.stage){
+
+                    case "round1_instructions":
+                        prepareInstructions(1);
+                        showSection("instructionSection");
+                        break;
+
+                    case "round1_test":
+                        loadRound(1);
+                        break;
+
+                    case "round2_instructions":
+                        prepareInstructions(2);
+                        showSection("instructionSection");
+                        break;
+
+                    case "round2_test":
+                        loadRound(2);
+                        break;
+
+                    case "qualification":
+                        showQualificationPage();
+                        break;
+
+                    case "round3_instructions":
+                        prepareInstructions(3);
+                        showSection("instructionSection");
+                        break;
+
+                    case "round3_test":
+                        loadRound(3);
+                        break;
+
+                    case "final":
+                        showFinalPage();
+                        break;
+                }
+            });
+        };
+
+        function showSection(id){
+
+            document.getElementById("openingPage").classList.add("hidden");
+            document.getElementById("instructionSection").classList.add("hidden");
+            document.getElementById("testSection").classList.add("hidden");
+            document.getElementById("languageSection").classList.add("hidden");
+            document.getElementById("qualificationSection").classList.add("hidden");
+            document.getElementById("finalSection").classList.add("hidden");
+
+            document.getElementById(id).classList.remove("hidden");
+        }
+
+        function registerViolation(type) {
+
+            violationCount++;
+
+            console.log("Violation:", type, "Count:", violationCount);
+
+            if (violationCount > 2) {
+
+                alert("Too many violations. Auto submitting.");
+
+                if (document.getElementById("testSection") &&
+                    !document.getElementById("testSection").classList.contains("hidden")) {
+
+                    submitRound();
+                }
+                else if (document.getElementById("instructionSection") &&
+                    !document.getElementById("instructionSection").classList.contains("hidden")) {
+
+                    // If on instruction page, skip directly to test submit
+                    submitRound();
+                }
+
+            }
+        }
+
+        document.addEventListener("visibilitychange", function () {
+
+            if (document.hidden && currentRound && currentRound <= 3) {
+                registerViolation("Tab Switch");
+            }
+
+        });
+
+        document.addEventListener("fullscreenchange", function () {
+
+            if (!document.fullscreenElement && currentRound && currentRound <= 3) {
+                registerViolation("Fullscreen Exit");
+            }
+
+        });
+
+        window.addEventListener("popstate", function () {
+
+            if (currentRound && currentRound <= 3) {
+                registerViolation("Back Navigation");
+            }
+
+        });
+
+
+        /* ================= FULLSCREEN ================= */
+
+        function enterFullScreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => { });
+            }
+        }
+
+        /* ================= LOGIN ================= */
+
+        function login() {
+
+            fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    login_id: login_id.value,
+                    password: password.value
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+
+                    if (!data.success) {
+                        document.getElementById("loginMsg").innerText = "Invalid Credentials";
+                        return;
+                    }
+
+                    document.getElementById("openingPage").classList.add("hidden");
+                    document.getElementById("instructionSection").classList.remove("hidden");
+
+                    prepareInstructions(1);
+                    enterFullScreen();
+                    history.pushState(null, null, location.href);
+                });
+        }
+
+        /* ================= INSTRUCTIONS ================= */
+
+        function prepareInstructions(round) {
+
+            currentRound = round;
+
+            document.getElementById("instructionTitle").innerText =
+                "Round " + round + " Instructions";
+
+            let content = "";
+
+            if (round === 1) {
+                content = `
+        <p>• Total Questions: 20 (MCQ)</p>
+        <p>• Each question carries 1 mark</p>
+        <p>• No negative marking</p>
+        <p>• Time Limit: 10 Minutes</p>
+        <p>• You may navigate freely using Previous / Next</p>
+        <p>• All answers are auto-saved</p>
+        <p>• Do not switch tabs or exit fullscreen</p>
+        <p>• More than 2 violations will auto-submit your test</p>
+        `;
+            } else if (round === 2) {
+                content = `
+        <p>• Fill-in-the-Blank Coding Round</p>
+        <p>• Each question carries 2 marks</p>
+        <p>• Answers must be precise and exact</p>
+        <p>• Time Limit: 10 Minutes</p>
+        <p>• Cumulative score (Round 1 + 2) must be ≥ 30 to qualify</p>
+        <p>• Do not switch tabs or exit fullscreen</p>
+        <p>• More than 2 violations will auto-submit your test</p>
+        `;
+            } else if (round === 3) {
+                content = `
+        <p>• Final Coding Challenge</p>
+        <p>• Each question carries 5 marks</p>
+        <p>• Code will be evaluated automatically</p>
+        <p>• Time Limit: 25 Minutes</p>
+        <p>• Strict anti-cheat monitoring enabled</p>
+        <p>• Do not switch tabs or exit fullscreen</p>
+        <p>• More than 2 violations will auto-submit your test</p>
+        `;
+            }
+
+            document.getElementById("instructionContent").innerHTML = content;
+        }
+
+        /* ================= START ROUND ================= */
+
+        function startRoundOfficial() {
+
+            document.getElementById("instructionSection").classList.add("hidden");
+            document.getElementById("testSection").classList.remove("hidden");
+            document.getElementById("timer").innerText = "";
+
+            document.getElementById("roundHeader").innerText =
+                "ROUND " + currentRound;
+
+            loadRound(currentRound);
+        }
+
+        /* ================= LOAD ROUND ================= */
+
+        function loadRound(round) {
+
+            fetch("/start-round", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ round })
+            })
+                .then(() => {
+
+                    fetch("/questions?round=" + round)
+                        .then(res => res.json())
+                        .then(data => {
+
+                            questionsData = data;
+
+                            if (!data || data.length === 0) {
+                                alert("No questions loaded");
+                                return;
+                            }
+
+                            fetch("/round-duration?round=" + round)
+                                .then(res => res.json())
+                                .then(durationData => {
+
+                                    timeRemaining = durationData.duration_ms;
+                                    startTimer();
+                                    totalTimeSpent = 0;
+
+                                    currentQuestionIndex = 0;
+                                    visitedQuestions.clear();
+                                    savedAnswers = {};
+                                    showQuestion();
+
+                                });
+
+                        });
+
+                });
+        }
+
+        /* ================= SHOW QUESTION ================= */
+
+        function showQuestion() {
+
+            if (!questionsData[currentQuestionIndex]) return;
+
+            visitedQuestions.add(currentQuestionIndex);
+
+            const question = questionsData[currentQuestionIndex];
+            const container = document.getElementById("questionContainer");
+
+            container.style.opacity = 0;
+
+            setTimeout(() => {
+
+                // Question number
+                document.getElementById("questionNumber").innerText =
+                    "Question " + (currentQuestionIndex + 1) +
+                    " of " + questionsData.length;
+
+                // Question text
+                document.getElementById("questionText").innerText =
+                    question.question.replace(/\\n/g, "\n");
+
+                // Clear old options / inputs
+                const optionsContainer = document.getElementById("optionsContainer");
+                optionsContainer.innerHTML = "";
+
+                // ================= ROUND 1 (MCQ) =================
+                if (question.options && question.options.length > 0) {
+
+                    question.options.forEach(option => {
+
+                        const div = document.createElement("div");
+                        div.className = "option-box";
+                        div.innerText = option;
+
+                        if (savedAnswers[question.id] === option) {
+                            div.classList.add("option-selected");
+                        }
+
+                        div.onclick = function () {
+
+                            document.querySelectorAll(".option-box")
+                                .forEach(box => box.classList.remove("option-selected"));
+
+                            div.classList.add("option-selected");
+                            savedAnswers[question.id] = option;
+                        };
+
+                        optionsContainer.appendChild(div);
+                    });
+
+                }
+                // ================= ROUND 2 (Single Line Input) =================
+                else if (currentRound === 2) {
+
+                    const input = document.createElement("input");
+                    input.type = "text";
+                    input.placeholder = "Enter your answer here";
+                    input.style.width = "80%";
+                    input.style.padding = "8px";
+                    input.style.fontSize = "16px";
+
+                    if (savedAnswers[question.id]) {
+                        input.value = savedAnswers[question.id];
+                    }
+
+                    input.addEventListener("input", function () {
+                        savedAnswers[question.id] = this.value;
+                    });
+
+                    optionsContainer.appendChild(input);
+                }
+                // ================= ROUND 3 (Code Input) =================
+                else if (currentRound === 3) {
+
+                    optionsContainer.innerHTML = "";
+
+                    if (question.type === "python") {
+
+                        const pre = document.createElement("pre");
+                        pre.innerText = "def solve(n):";
+                        pre.style.color = "#ffffff";
+                        pre.style.fontWeight = "bold";
+                        pre.style.marginBottom = "8px";
+
+                        const textarea = document.createElement("textarea");
+                        textarea.spellcheck = false;
+                        textarea.autocorrect = "off";
+                        textarea.autocapitalize = "off";
+                        textarea.rows = 8;
+                        textarea.style.width = "80%";
+                        textarea.placeholder = "Write function body here...";
+
+                        if (savedAnswers[question.id]) {
+                            textarea.value = savedAnswers[question.id];
+                        }
+
+                        textarea.addEventListener("input", function () {
+                            savedAnswers[question.id] = this.value;
+                        });
+
+                        optionsContainer.appendChild(pre);
+                        optionsContainer.appendChild(textarea);
+                    }
+
+                    else if (question.type === "sql") {
+
+                        const textarea = document.createElement("textarea");
+                        textarea.spellcheck = false;
+                        textarea.autocorrect = "off";
+                        textarea.autocapitalize = "off";
+                        textarea.rows = 6;
+                        textarea.style.width = "80%";
+                        textarea.placeholder = "Write your SELECT query here...";
+
+                        if (savedAnswers[question.id]) {
+                            textarea.value = savedAnswers[question.id];
+                        }
+
+                        textarea.addEventListener("input", function () {
+                            savedAnswers[question.id] = this.value;
+                        });
+
+                        optionsContainer.appendChild(textarea);
+                    }
+                }
+
+                // Navigation buttons
+                if (currentQuestionIndex === 0) {
+                    document.getElementById("prevBtn").style.display = "none";
+                } else {
+                    document.getElementById("prevBtn").style.display = "inline-block";
+                }
+
+                if (currentQuestionIndex === questionsData.length - 1) {
+                    document.getElementById("nextBtn").style.display = "none";
+                } else {
+                    document.getElementById("nextBtn").style.display = "inline-block";
+                }
+
+                if (currentQuestionIndex === questionsData.length - 1) {
+                    document.getElementById("submitBtn").classList.remove("hidden");
+                } else {
+                    document.getElementById("submitBtn").classList.add("hidden");
+                }
+
+                container.style.opacity = 1;
+
+            }, 150);
+        }
+
+        /* ================= NAVIGATION ================= */
+
+        function nextQuestion() {
+
+            if (currentQuestionIndex < questionsData.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        }
+
+        function prevQuestion() {
+
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+
+        /* ================= SUBMIT ================= */
+
+        function submitRound() {
+
+            clearInterval(timerInterval);
+
+            let answers = questionsData.map(q => ({
+                id: q.id,
+                answer: savedAnswers[q.id] || ""
+            }));
+
+            fetch("/submit?round=" + currentRound, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    answers,
+                    timeTaken: totalTimeSpent
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                document.getElementById("testSection").classList.add("hidden");
+
+                // ================= ROUND 1 =================
+                if(currentRound === 1){
+                    showSection("languageSection");
+                }
+
+                // ================= ROUND 2 =================
+                else if(currentRound === 2){
+                    showQualificationPage();
+                }
+
+                // ================= ROUND 3 =================
+                else if(currentRound === 3){
+                    showFinalPage();
+                }
+
+            });
+        }
+
+        function startTimer() {
+
+            clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time is up!");
+                    submitRound();
+                    return;
+                }
+
+                let minutes = Math.floor(timeRemaining / 60000);
+                let seconds = Math.floor((timeRemaining % 60000) / 1000);
+
+                document.getElementById("timer").innerText =
+                    "Time Remaining: " +
+                    minutes.toString().padStart(2, "0") + ":" +
+                    seconds.toString().padStart(2, "0");
+
+                timeRemaining -= 1000;
+                totalTimeSpent += 1000;
+
+            }, 1000);
+        }
+
+        let selectedTrack = null;
+
+
+        function selectTrack(track){
+            selectedTrack = track;
+            document.querySelectorAll(".selection-box")
+                .forEach(box => box.classList.remove("track-selected"));
+
+            event.currentTarget.classList.add("track-selected");
+        }
+
+        function confirmTrack(){
+
+            if(!selectedTrack){
+                alert("Please select a track.");
+                return;
+            }
+
+            fetch("/select-track", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ track: selectedTrack })
+            })
+            .then(res => res.json())
+            .then(data => {
+
+                if(data.success){
+                    prepareInstructions(2);
+                    showSection("instructionSection");
+                } else {
+                    alert("Error saving selection.");
+                }
+
+            });
+        }
+
+        // Disable right-click
+        document.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        // Warn on page reload
+        window.addEventListener("beforeunload", function (e) {
+            if(currentRound && currentRound <= 3){
+                e.preventDefault();
+                e.returnValue = "";
+            }
+        });
+
+        document.addEventListener("keydown", function (e) {
+
+            // Block refresh
+            if (e.key === "F5") e.preventDefault();
+            if (e.ctrlKey && e.key.toLowerCase() === "r") e.preventDefault();
+
+            // Block ESC
+            if (e.key === "Escape") e.preventDefault();
+
+            // Block F11
+            if (e.key === "F11") e.preventDefault();
+
+            // Admin exit shortcut
+            if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "q") {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            }
+
+        });
+
+        function showQualificationPage(){
+
+            showSection("qualificationSection");
+
+            fetch('/getTotalScore')
+            .then(res => res.json())
+            .then(data => {
+
+                if(data.total_score >= 30){
+
+                    qualificationTitle.innerText = "Qualified";
+                    qualificationMessage.innerText = "Congratulations! You have qualified for Round 3.";
+
+                    qualificationBtn.onclick = function(){
+
+                        fetch('/qualification-viewed', { method: 'POST' })
+                        .then(() => {
+                            prepareInstructions(3);
+                            showSection("instructionSection");
+                        });
+
+                    };
+
+                } else {
+
+                    qualificationTitle.innerText = "Disqualified";
+                    qualificationMessage.innerText = "Better luck next time. You did not meet the cutoff criteria.";
+
+                    qualificationBtn.onclick = function(){
+                        showFinalPage();
+                    };
+                }
+            });
+        }
+
+        function showFinalPage(){
+            showSection("finalSection");
+        }
+    </script>
+</body>
+
+</html>
