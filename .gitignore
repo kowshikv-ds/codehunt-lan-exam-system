@@ -1,0 +1,6 @@
+node_modules/
+codehunt.db
+codehunt.db-shm
+codehunt.db-wal
+temp_*.py
+.env
