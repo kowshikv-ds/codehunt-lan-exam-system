@@ -22,6 +22,18 @@ Participants connect to a **local server using a browser**, complete multiple ro
 
 ---
 
+## Key Capabilities
+
+- LAN based competition platform
+- Multi-round exam architecture
+- Automated Python code evaluation
+- SQL query validation engine
+- Anti-cheat monitoring system
+- Resume mechanism for interrupted sessions
+- Automatic leaderboard generation
+
+---
+
 # Competition Structure
 
 The competition consists of **three rounds**.
